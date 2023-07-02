@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>セーブ</title>
+</head>
+<body>
+
+<h1>サーバにセーブ</h1>
+
+<form>
+  <input type="text" id="id" name="id" placeholder="id">
+  <input type="text" id="data" name="data" placeholder="data">
+  <input type="button" id="btn-save" value="セーブ">
+</form>
+
+<script>
+const btnSave = document.querySelector('#btn-save');
+btnSave.addEventListener('click', async () => {
+  const id = document.querySelector('#id').value;
+  const data = document.querySelector('#data').value;
+
+  const res = await fetch('https://neecbox.net/api/store/save.php', {
+    method: 'POST',
+    body: new URLSearchParams({
+      id: id,
+      data: data
+    })
+  });
+  const json = await res.json();
+  console.log(json);
+
+  if( json['status'] === true ){
+    alert('セーブしました');
+  }
+  else{
+    alert('セーブに失敗しました ' + json['error']);
+  }
+});
+</script>
+
+</body>
+</html>
